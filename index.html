@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+<style>
+input{
+    width:180px;
+    height:120px;
+    margin:15px;
+    margin-left:30px;
+    font-variant: small-caps;
+    color:rgb(20,50,160);
+}
+body{
+    background: rgb(160,170,185);
+}
+a{
+    text-decoration: none;
+    color:cyan;
+}
+</style>
+    <input type="number" placeholder="Inserisci numero in decimale">
+    <input readonly placeholder="Numero in binario"><p hidden></p><br>
+    <input type="number" placeholder="Inserisci numero in binario">
+    <input readonly placeholder="Numero in decimale">
+    <p></p>
+    <div>Il <a href="https://it.wikipedia.org/wiki/Codice_binario">codice binario</a> si puó definire come "il sistema di conteggio delle macchine". Quest'ultimo si basa sulle infinite possibili combinazioni tra 0 e 1</div>
+<script>
+rispostaInBinario=document.querySelectorAll("input")[1]
+numeroDecimale=document.querySelectorAll("input")[0]
+numeroBinario=document.querySelectorAll("input")[2]
+rispostaInDecimale=document.querySelectorAll("input")[3]
+p=document.querySelector("p")
+function toBinary(){
+    numeroDaTradurre=numeroDecimale.value
+    if(numeroDaTradurre<0){
+        p.innerHTML="Questo programma non traduce numeri negativi"
+        p.hidden=false
+    }
+    if(numeroDaTradurre==1 || numeroDaTradurre==0){
+        rispostaInBinario.value=numeroDaTradurre
+        p.hidden=true
+    }
+    else{
+        p.hidden=true
+        numeroInBinario=""
+        while (numeroDaTradurre>=1){
+            numeroInBinario=numeroDaTradurre%2+numeroInBinario
+            numeroDaTradurre=Math.floor(numeroDaTradurre/2)        }
+        rispostaInBinario.value=numeroInBinario
+    }
+}   
+numeroDecimale.addEventListener("input", toBinary)
+function toDecimal(){
+    numeroDaTradurre=numeroBinario.value
+    arrayNumeriNonAmmessi=[2,3,4,5,6,7,8,9]
+    numeroDaTradurre=numeroDaTradurre.toString()
+    validità=false
+    for(i=0;i<9;i++){
+        if(numeroDaTradurre.includes(arrayNumeriNonAmmessi[i])){
+            validità=false
+            rispostaInDecimale.value="Numero binario non valido"
+            break
+        }
+        if(!numeroDaTradurre.includes(arrayNumeriNonAmmessi[i])){
+            validità=true
+        }
+    }
+    if(validità){
+        if(numeroDaTradurre==0 || numeroDaTradurre==1){
+            rispostaInDecimale.value=numeroDaTradurre
+        }
+        else{
+            let decimale = 0;
+            let potenza = 0;
+            for (let i = numeroDaTradurre.length - 1; i >= 0; i--) {
+                if (numeroDaTradurre[i] === '1') {
+                    decimale += Math.pow(2, potenza);
+                }
+            potenza++;
+            }
+            rispostaInDecimale.value=decimale
+        }
+    }
+}
+numeroBinario.addEventListener("input",toDecimal)
+</script>
+</html>
